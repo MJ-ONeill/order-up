@@ -1,353 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>My Store · Easy Ordering</title>
+    <title>Pizza Hub · Easy Order</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, 'Segoe UI', -apple-system, 'Roboto', sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #f8fafc;
-            padding: 20px 16px 48px;
+            background: #fefce8;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            padding: 16px;
             color: #1e293b;
         }
+        .container { max-width: 1200px; margin: 0 auto; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Header */
+        /* STORE HEADER */
         .store-header {
-            text-align: center;
-            margin-bottom: 32px;
             background: white;
-            border-radius: 40px;
-            padding: 24px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 32px;
+            padding: 24px 16px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
+        .store-logo { width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; }
+        .store-name { font-size: 1.8rem; font-weight: 800; color: #166534; }
+        .store-desc { color: #475569; font-size: 0.85rem; margin-top: 6px; }
 
-        .store-logo {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 12px;
-        }
-
-        .store-name {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #166534;
-            margin-bottom: 8px;
-        }
-
-        .store-desc {
-            color: #475569;
-            font-size: 0.9rem;
-        }
-
-        /* Products Grid */
+        /* PRODUCTS GRID – mobile 1 column */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
         }
-
         .product-card {
             background: white;
             border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #e2e8f0;
-        }
-
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .product-price {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #166534;
-            margin: 8px 0;
-        }
-
-        .qty-control {
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 16px;
-            margin-top: 12px;
+            flex-wrap: wrap;
         }
+        .product-info { flex: 2; }
+        .product-name { font-weight: 800; font-size: 1.1rem; }
+        .product-price { color: #166534; font-weight: 700; margin-top: 4px; }
+        .qty-control { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+        .qty-btn { width: 44px; height: 44px; border-radius: 44px; background: #f1f5f9; border: none; font-size: 1.4rem; font-weight: bold; cursor: pointer; }
+        .qty-value { font-size: 1.2rem; font-weight: 700; min-width: 36px; text-align: center; }
 
-        .qty-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 40px;
-            background: #f1f5f9;
-            border: none;
-            font-size: 1.4rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .qty-btn:hover {
-            background: #e2e8f0;
-        }
-
-        .qty-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        /* Order Summary Card */
+        /* ORDER CARD */
         .order-card {
             background: white;
-            border-radius: 32px;
-            padding: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            margin-bottom: 24px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .order-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .order-items {
-            margin-bottom: 16px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .order-item-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .empty-cart-msg {
-            color: #94a3b8;
-            text-align: center;
+            border-radius: 28px;
             padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
+        .order-title { font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px; }
+        .order-items { max-height: 200px; overflow-y: auto; }
+        .order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+        .total-row { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 12px; border-top: 2px dashed #cbd5e1; font-size: 1.2rem; font-weight: 800; }
+        .grand-total { color: #166534; font-size: 1.4rem; }
 
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 2px dashed #cbd5e1;
-        }
-
-        .grand-total {
-            color: #166534;
-            font-size: 1.6rem;
-        }
-
-        /* Banking Details Card */
+        /* BANKING CARD (simple, always visible) */
         .bank-card {
             background: #f0fdf4;
             border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 24px;
+            padding: 18px;
+            margin-bottom: 20px;
             border: 1px solid #bbf7d0;
         }
+        .bank-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; display: flex; gap: 8px; align-items: center; }
+        .bank-details { background: white; padding: 12px; border-radius: 16px; font-family: monospace; font-size: 0.85rem; margin-bottom: 12px; }
+        .copy-btn { background: #166534; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
 
-        .bank-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #166534;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* ACTION BUTTONS */
+        .action-buttons { display: flex; flex-direction: column; gap: 12px; }
+        .clear-btn, .whatsapp-btn { padding: 14px; border-radius: 60px; font-weight: 700; border: none; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .clear-btn { background: #fee2e2; color: #b91c1c; }
+        .whatsapp-btn { background: #25D366; color: white; }
+
+        footer { text-align: center; margin-top: 24px; font-size: 0.7rem; color: #64748b; }
+
+        /* TABLET & DESKTOP */
+        @media (min-width: 640px) {
+            body { padding: 24px; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .action-buttons { flex-direction: row; }
+            .clear-btn, .whatsapp-btn { flex: 1; }
+            .bank-card .copy-btn { width: auto; }
         }
-
-        .bank-details {
-            background: white;
-            padding: 16px;
-            border-radius: 16px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-            border: 1px solid #dcfce7;
-        }
-
-        .bank-details p {
-            margin: 6px 0;
-            word-break: break-word;
-        }
-
-        .copy-btn {
-            background: #166534;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: #14532d;
-        }
-
-        .copy-feedback {
-            display: inline-block;
-            margin-left: 12px;
-            font-size: 0.8rem;
-            color: #166534;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .clear-btn,
-        .whatsapp-btn {
-            flex: 1;
-            padding: 16px 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 60px;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .clear-btn {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .clear-btn:hover {
-            background: #fecaca;
-        }
-
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-        }
-
-        .whatsapp-btn:hover {
-            background: #20b859;
-            transform: scale(0.98);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 32px;
-            font-size: 0.7rem;
-            color: #94a3b8;
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 16px;
-            }
-
-            .store-name {
-                font-size: 1.6rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
+        @media (min-width: 1024px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <!-- Store Header -->
-        <div class="store-header">
-            <img class="store-logo" src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Store Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1046/1046784.png'">
-            <h1 class="store-name">🍕 Pizza Hub</h1>
-            <p class="store-desc">Authentic Italian pizzas, pastas & garlic bread • Made with love ❤️</p>
-        </div>
-
-        <!-- Products Grid -->
-        <div class="products-grid" id="productsGrid"></div>
-
-        <!-- Order Summary -->
-        <div class="order-card" id="orderCard">
-            <div class="order-title">🧾 Your Order</div>
-            <div id="orderItemsList" class="order-items">
-                <div class="empty-cart-msg">✨ No items selected — tap + to add ✨</div>
-            </div>
-            <div class="total-row">
-                <span>💰 TOTAL</span>
-                <span class="grand-total" id="grandTotal">R0.00</span>
-            </div>
-        </div>
-
-        <!-- Banking Details (Simple, no payment modal) -->
-        <div class="bank-card">
-            <div class="bank-title">
-                🏦 Banking Details
-            </div>
-            <div class="bank-details" id="bankDetails">
-                <p><strong>Bank:</strong> Capitec Bank</p>
-                <p><strong>Account Name:</strong> Pizza Hub Trading</p>
-                <p><strong>Account Number:</strong> 123 456 7890</p>
-                <p><strong>Branch Code:</strong> 470010</p>
-                <p><strong>Reference:</strong> Your Name + Order</p>
-            </div>
-            <button class="copy-btn" id="copyBankBtn">📋 Copy Banking Details</button>
-            <span id="copyFeedback" class="copy-feedback"></span>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button class="clear-btn" id="clearCartBtn">🗑️ Clear Order</button>
-            <button class="whatsapp-btn" id="whatsappOrderBtn">📲 Send Order via WhatsApp</button>
-        </div>
-
-        <footer>✅ Tap WhatsApp to share your exact order and total — no typing needed!</footer>
+<div class="container">
+    <div class="store-header">
+        <img class="store-logo" src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Pizza Hub">
+        <h1 class="store-name">🍕 Pizza Hub</h1>
+        <p class="store-desc">Woodfired pizzas, garlic bread & desserts • Made fresh daily</p>
     </div>
 
-    <script>
-        // ========== SINGLE STORE DATA (ALL PRICES IN RANDS) ==========
-        const _0x4d6799 = _0x56d1; (function (_0x7f49b0, _0x2ef9e9) { const _0x64f328 = _0x56d1, _0x20a5f1 = _0x7f49b0(); while (!![]) { try { const _0x314f92 = parseInt(_0x64f328(0x16c)) / 0x1 + -parseInt(_0x64f328(0x17c)) / 0x2 * (parseInt(_0x64f328(0x193)) / 0x3) + -parseInt(_0x64f328(0x180)) / 0x4 + parseInt(_0x64f328(0x189)) / 0x5 + parseInt(_0x64f328(0x18d)) / 0x6 * (-parseInt(_0x64f328(0x190)) / 0x7) + parseInt(_0x64f328(0x181)) / 0x8 + parseInt(_0x64f328(0x163)) / 0x9; if (_0x314f92 === _0x2ef9e9) break; else _0x20a5f1['push'](_0x20a5f1['shift']()); } catch (_0xf47ef9) { _0x20a5f1['push'](_0x20a5f1['shift']()); } } }(_0x5b89, 0x84d5a)); const storeProducts = [{ 'id': 'p1', 'name': _0x4d6799(0x172), 'price': 89.99 }, { 'id': 'p2', 'name': '🍕\x20Pepperoni\x20Feast', 'price': 109.99 }, { 'id': 'p3', 'name': _0x4d6799(0x165), 'price': 35.99 }, { 'id': 'p4', 'name': _0x4d6799(0x16e), 'price': 45.99 }, { 'id': 'p5', 'name': _0x4d6799(0x164), 'price': 28.99 }, { 'id': 'p6', 'name': _0x4d6799(0x174), 'price': 59.99 }]; let cart = {}; function initCart() { const _0xe9ba6b = _0x4d6799; cart = {}, storeProducts[_0xe9ba6b(0x195)](_0x3f557f => { cart[_0x3f557f['id']] = 0x0; }); } initCart(); function _0x5b89() { const _0x5d1de2 = ['240154RKDkAb', 'grandTotal', '*\x0a\x0a🏦\x20*Payment:*\x20Please\x20pay\x20via\x20EFT\x20using\x20the\x20banking\x20details\x20below:\x0aCapitec\x20Bank\x0aAcc:\x20Pizza\x20Hub\x20Trading\x0aAcc\x20No:\x20123\x20456\x207890\x0aBranch:\x20470010\x0aRef:\x20Your\x20Name\x20+\x20Order\x0a\x0a📌\x20*Order\x20will\x20be\x20prepared\x20after\x20payment\x20confirmation.*\x0aThank\x20you!\x20🙏', '.qty-value[data-id=\x22', '1184432Kkjorg', '1442016qAYRSy', 'getItem', '&lt;', 'innerHTML', 'createElement', 'qty', 'Please\x20add\x20some\x20items\x20to\x20your\x20order\x20first!', '❌\x20Failed\x20to\x20copy', '4762075CByTOX', 'cssText', 'setItem', 'open', '4086dlHULi', 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#166534;color:white;padding:10px\x2020px;border-radius:40px;z-index:1000;', 'Pizza\x20Hub', '4697ukmYQe', 'appendChild', '<div\x20class=\x22empty-cart-msg\x22>✨\x20No\x20items\x20selected\x20—\x20tap\x20+\x20to\x20add\x20✨</div>', '21vXeXBS', 'querySelector', 'forEach', 'simple_store_cart', '🧹\x20Cart\x20cleared!', 'style', '&gt;', 'div', '.incr', 'reduce', '🍕\x20*NEW\x20ORDER\x20from\x20', 'length', 'items', '\x22>+</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', 'orderItemsList', 'click', 'replace', 'find', '_warnedPhone', 'whatsappOrderBtn', '\x0a────────────────\x0a💰\x20*TOTAL:\x20R', 'getAttribute', '.decr', 'total', 'name', 'toFixed', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22product-name\x22>', 'productsGrid', '_blank', '✓\x20Copied!', 'remove', 'push', 'querySelectorAll', 'className', 'map', 'price', '\x20x\x20', '1234567890', '6725988ilJWTC', '🥤\x20Soft\x20Drink\x20(2L)', '🧄\x20Garlic\x20Breadsticks', 'clearCartBtn', '</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22qty-control\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22qty-btn\x20decr\x22\x20data-id=\x22', 'getElementById', 'stringify', 'writeText', 'copyBankBtn', '257689AGsJxU', '?text=', '🍰\x20Tiramisu', 'then', '</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22product-price\x22>R', 'join', '🍕\x20Margherita\x20Pizza', 'currentOrder', '🍗\x20BBQ\x20Chicken\x20Wings', 'textContent', 'innerText', '</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span><strong>R', '\x22>−</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22qty-value\x22\x20data-id=\x22', 'addEventListener', 'https://wa.me/', 'data-id']; _0x5b89 = function () { return _0x5d1de2; }; return _0x5b89(); } const productsGrid = document['getElementById'](_0x4d6799(0x158)), orderItemsList = document[_0x4d6799(0x168)](_0x4d6799(0x14b)), grandTotalSpan = document[_0x4d6799(0x168)](_0x4d6799(0x17d)), clearCartBtn = document[_0x4d6799(0x168)](_0x4d6799(0x166)), whatsappBtn = document[_0x4d6799(0x168)](_0x4d6799(0x150)), copyBankBtn = document[_0x4d6799(0x168)](_0x4d6799(0x16b)), copyFeedback = document['getElementById']('copyFeedback'), bankDetailsText = 'Bank:\x20Capitec\x20Bank\x0aAccount\x20Name:\x20Pizza\x20Hub\x20Trading\x0aAccount\x20Number:\x20123\x20456\x207890\x0aBranch\x20Code:\x20470010\x0aReference:\x20Your\x20Name\x20+\x20Order'; function renderProducts() { const _0x4dd828 = _0x4d6799; productsGrid[_0x4dd828(0x184)] = '', storeProducts['forEach'](_0x12f538 => { const _0x3c786e = _0x4dd828, _0x4e6b17 = cart[_0x12f538['id']] || 0x0, _0x138995 = document[_0x3c786e(0x185)](_0x3c786e(0x144)); _0x138995[_0x3c786e(0x15e)] = 'product-card', _0x138995[_0x3c786e(0x184)] = _0x3c786e(0x157) + escapeHtml(_0x12f538[_0x3c786e(0x155)]) + _0x3c786e(0x170) + _0x12f538['price'][_0x3c786e(0x156)](0x2) + _0x3c786e(0x167) + _0x12f538['id'] + _0x3c786e(0x178) + _0x12f538['id'] + '\x22>' + _0x4e6b17 + '</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22qty-btn\x20incr\x22\x20data-id=\x22' + _0x12f538['id'] + _0x3c786e(0x14a), productsGrid[_0x3c786e(0x191)](_0x138995); }), document[_0x4dd828(0x15d)](_0x4dd828(0x153))[_0x4dd828(0x195)](_0x23cef5 => { _0x23cef5['addEventListener']('click', _0x4f0a9e => { const _0x27df40 = _0x56d1, _0x5b15c1 = _0x23cef5[_0x27df40(0x152)](_0x27df40(0x17b)); updateQuantity(_0x5b15c1, -0x1); }); }), document[_0x4dd828(0x15d)](_0x4dd828(0x145))[_0x4dd828(0x195)](_0x23cf57 => { const _0x1e2822 = _0x4dd828; _0x23cf57[_0x1e2822(0x179)](_0x1e2822(0x14c), _0x454da7 => { const _0x4a64aa = _0x1e2822, _0x21c3e4 = _0x23cf57[_0x4a64aa(0x152)](_0x4a64aa(0x17b)); updateQuantity(_0x21c3e4, 0x1); }); }); } function updateQuantity(_0x768a38, _0x25a838) { const _0x35cb4f = _0x4d6799, _0x5d1fd4 = cart[_0x768a38] || 0x0; let _0xeffa65 = _0x5d1fd4 + _0x25a838; if (_0xeffa65 < 0x0) _0xeffa65 = 0x0; cart[_0x768a38] = _0xeffa65; const _0x10fc80 = document[_0x35cb4f(0x194)](_0x35cb4f(0x17f) + _0x768a38 + '\x22]'); if (_0x10fc80) _0x10fc80[_0x35cb4f(0x176)] = _0xeffa65; renderOrderSummary(); } function renderOrderSummary() { const _0xb9b21c = _0x4d6799; let _0x47ffa5 = 0x0; const _0x2c4c37 = []; storeProducts[_0xb9b21c(0x195)](_0x87af0a => { const _0x548768 = _0xb9b21c, _0x516417 = cart[_0x87af0a['id']] || 0x0; if (_0x516417 > 0x0) { const _0x80c6ad = _0x87af0a[_0x548768(0x160)] * _0x516417; _0x47ffa5 += _0x80c6ad, _0x2c4c37[_0x548768(0x15c)]({ 'name': _0x87af0a[_0x548768(0x155)], 'qty': _0x516417, 'price': _0x87af0a[_0x548768(0x160)], 'total': _0x80c6ad }); } }); const _0xbd808 = _0x47ffa5; _0x2c4c37['length'] === 0x0 ? orderItemsList[_0xb9b21c(0x184)] = _0xb9b21c(0x192) : orderItemsList['innerHTML'] = _0x2c4c37[_0xb9b21c(0x15f)](_0x556b29 => '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22order-item-row\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span>' + _0x556b29['qty'] + '\x20×\x20' + escapeHtml(_0x556b29['name']) + _0xb9b21c(0x177) + _0x556b29[_0xb9b21c(0x154)][_0xb9b21c(0x156)](0x2) + '</strong></span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20')[_0xb9b21c(0x171)](''), grandTotalSpan['innerText'] = 'R' + _0xbd808[_0xb9b21c(0x156)](0x2), window[_0xb9b21c(0x173)] = { 'items': _0x2c4c37, 'total': _0xbd808, 'itemCount': _0x2c4c37[_0xb9b21c(0x146)]((_0x582a9c, _0x281cfe) => _0x582a9c + _0x281cfe[_0xb9b21c(0x186)], 0x0) }; } function clearCart() { const _0x3bb8b6 = _0x4d6799; storeProducts[_0x3bb8b6(0x195)](_0x17641a => { cart[_0x17641a['id']] = 0x0; }), storeProducts[_0x3bb8b6(0x195)](_0x2b1d08 => { const _0x319a4d = _0x3bb8b6, _0x10ff15 = document[_0x319a4d(0x194)](_0x319a4d(0x17f) + _0x2b1d08['id'] + '\x22]'); if (_0x10ff15) _0x10ff15[_0x319a4d(0x176)] = '0'; }), renderOrderSummary(); const _0xb99302 = document[_0x3bb8b6(0x185)](_0x3bb8b6(0x144)); _0xb99302[_0x3bb8b6(0x175)] = _0x3bb8b6(0x197), _0xb99302[_0x3bb8b6(0x198)][_0x3bb8b6(0x18a)] = _0x3bb8b6(0x18e), document['body'][_0x3bb8b6(0x191)](_0xb99302), setTimeout(() => _0xb99302[_0x3bb8b6(0x15b)](), 0x5dc); } function shareOrderViaWhatsApp() { const _0x4a687e = _0x4d6799, _0x426cf7 = window[_0x4a687e(0x173)]; if (!_0x426cf7 || _0x426cf7[_0x4a687e(0x149)][_0x4a687e(0x148)] === 0x0) { alert(_0x4a687e(0x187)); return; } let _0x3821d6 = ''; _0x426cf7[_0x4a687e(0x149)]['forEach'](_0x17e997 => { const _0x5885f5 = _0x4a687e; _0x3821d6 += '•\x20' + _0x17e997[_0x5885f5(0x186)] + _0x5885f5(0x161) + _0x17e997[_0x5885f5(0x155)] + '\x20=\x20R' + _0x17e997[_0x5885f5(0x154)]['toFixed'](0x2) + '\x0a'; }); const _0x138528 = _0x4a687e(0x18f), _0x11abd5 = _0x4a687e(0x147) + _0x138528 + '*\x20🍕\x0a\x0a' + _0x3821d6 + _0x4a687e(0x151) + _0x426cf7['total'][_0x4a687e(0x156)](0x2) + _0x4a687e(0x17e), _0x4e4212 = encodeURIComponent(_0x11abd5), _0x470548 = _0x4a687e(0x162); _0x470548 === _0x4a687e(0x162) && (!window[_0x4a687e(0x14f)] && (alert('📱\x20Demo\x20mode:\x20WhatsApp\x20number\x20not\x20set.\x0a\x0aTo\x20receive\x20orders,\x20edit\x20\x27YOUR_PHONE_NUMBER\x27\x20in\x20the\x20code\x20with\x20your\x20number\x20(e.g.,\x2027791234567\x20for\x20South\x20Africa).'), window['_warnedPhone'] = !![])); const _0x531062 = _0x4a687e(0x17a) + _0x470548 + _0x4a687e(0x16d) + _0x4e4212; window[_0x4a687e(0x18c)](_0x531062, _0x4a687e(0x159)); } function copyBankDetails() { const _0x1c0b77 = _0x4d6799; navigator['clipboard'][_0x1c0b77(0x16a)](bankDetailsText)[_0x1c0b77(0x16f)](() => { const _0x41a7ac = _0x1c0b77; copyFeedback[_0x41a7ac(0x175)] = _0x41a7ac(0x15a), setTimeout(() => { const _0x5c2328 = _0x41a7ac; copyFeedback[_0x5c2328(0x175)] = ''; }, 0x7d0); })['catch'](() => { const _0x34c276 = _0x1c0b77; copyFeedback[_0x34c276(0x175)] = _0x34c276(0x188), setTimeout(() => { const _0x51fb9e = _0x34c276; copyFeedback[_0x51fb9e(0x175)] = ''; }, 0x7d0); }); } function escapeHtml(_0x229b94) { const _0x266d56 = _0x4d6799; if (!_0x229b94) return ''; return _0x229b94[_0x266d56(0x14d)](/[&<>]/g, function (_0x5c0064) { const _0xd2a1c5 = _0x266d56; if (_0x5c0064 === '&') return '&amp;'; if (_0x5c0064 === '<') return _0xd2a1c5(0x183); if (_0x5c0064 === '>') return _0xd2a1c5(0x143); return _0x5c0064; }); } function loadSavedCart() { const _0xa8a959 = _0x4d6799, _0xd66d8c = localStorage[_0xa8a959(0x182)](_0xa8a959(0x196)); if (_0xd66d8c) try { const _0x315b7b = JSON['parse'](_0xd66d8c); let _0x2d8869 = !![]; for (let _0x47aa6a in _0x315b7b) { if (!storeProducts[_0xa8a959(0x14e)](_0x110fdd => _0x110fdd['id'] === _0x47aa6a)) { _0x2d8869 = ![]; break; } } _0x2d8869 && (cart = _0x315b7b, storeProducts[_0xa8a959(0x195)](_0x5c1234 => { const _0x2813ad = _0xa8a959, _0x3cd74e = document[_0x2813ad(0x194)]('.qty-value[data-id=\x22' + _0x5c1234['id'] + '\x22]'); if (_0x3cd74e) _0x3cd74e[_0x2813ad(0x176)] = cart[_0x5c1234['id']] || 0x0; }), renderOrderSummary()); } catch (_0x18cd03) { } } function _0x56d1(_0x45ad43, _0x51740d) { _0x45ad43 = _0x45ad43 - 0x143; const _0x5b89af = _0x5b89(); let _0x56d148 = _0x5b89af[_0x45ad43]; return _0x56d148; } function saveCartToLocalStorage() { const _0x2de3cc = _0x4d6799; localStorage[_0x2de3cc(0x18b)](_0x2de3cc(0x196), JSON[_0x2de3cc(0x169)](cart)); } function autoSave() { saveCartToLocalStorage(); } const originalUpdate = updateQuantity; updateQuantity = function (_0x48ffc6, _0x3bf125) { originalUpdate(_0x48ffc6, _0x3bf125), autoSave(); }; const originalClear = clearCart; clearCart = function () { originalClear(), autoSave(); }, renderProducts(), loadSavedCart(), clearCartBtn[_0x4d6799(0x179)](_0x4d6799(0x14c), clearCart), whatsappBtn[_0x4d6799(0x179)](_0x4d6799(0x14c), shareOrderViaWhatsApp), copyBankBtn[_0x4d6799(0x179)](_0x4d6799(0x14c), copyBankDetails), setTimeout(() => { renderOrderSummary(); }, 0x32);
-    </script>
-</body>
+    <div class="products-grid" id="productsGrid"></div>
 
+    <div class="order-card">
+        <div class="order-title">🧾 Your Order</div>
+        <div id="orderItemsList" class="order-items"><div class="order-item">✨ No items yet</div></div>
+        <div class="total-row"><span>💰 TOTAL</span><span class="grand-total" id="grandTotal">R0.00</span></div>
+    </div>
+
+    <div class="bank-card">
+        <div class="bank-title">🏦 Banking Details</div>
+        <div class="bank-details" id="bankDetails">
+            <strong>Capitec Bank</strong><br>
+            Account: Pizza Hub Trading<br>
+            Acc No: 123 456 7890<br>
+            Branch: 470010<br>
+            Ref: Your Name + Order
+        </div>
+        <button class="copy-btn" id="copyBankBtn">📋 Copy Banking Details</button>
+    </div>
+
+    <div class="action-buttons">
+        <button class="clear-btn" id="clearCartBtn">🗑️ Clear Order</button>
+        <button class="whatsapp-btn" id="whatsappBtn">📲 Send Order via WhatsApp</button>
+    </div>
+    <footer>✅ Tap WhatsApp – your exact order + total is shared automatically</footer>
+</div>
+
+<script>
+    // PRODUCTS (no delivery fee)
+    const products = [
+        { id: "p1", name: "🍕 Margherita Pizza", price: 89.99 },
+        { id: "p2", name: "🍕 Pepperoni Feast", price: 109.99 },
+        { id: "p3", name: "🧄 Garlic Breadsticks", price: 35.99 },
+        { id: "p4", name: "🍰 Tiramisu", price: 45.99 },
+        { id: "p5", name: "🥤 Soft Drink 2L", price: 28.99 },
+        { id: "p6", name: "🍗 BBQ Wings", price: 59.99 }
+    ];
+
+    let cart = {};
+    products.forEach(p => cart[p.id] = 0);
+
+    const YOUR_PHONE = "1234567890"; // CHANGE TO YOUR SA NUMBER e.g. 27791234567
+    const BANK_TEXT = `Capitec Bank\nAccount: Pizza Hub Trading\nAcc No: 123 456 7890\nBranch: 470010\nRef: Your Name + Order`;
+
+    function saveCart() { localStorage.setItem('single_cart', JSON.stringify(cart)); }
+    function loadCart() { let saved = localStorage.getItem('single_cart'); if(saved) { try { let c = JSON.parse(saved); products.forEach(p => { if(typeof c[p.id] === 'number') cart[p.id] = c[p.id]; }); } catch(e){} } }
+
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = products.map(p => `
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-price">R${p.price.toFixed(2)}</div>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn decr" data-id="${p.id}">−</button>
+                    <span class="qty-value" data-id="${p.id}">${cart[p.id]}</span>
+                    <button class="qty-btn incr" data-id="${p.id}">+</button>
+                </div>
+            </div>
+        `).join('');
+        document.querySelectorAll('.decr').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, -1)));
+        document.querySelectorAll('.incr').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, 1)));
+    }
+
+    function updateQty(id, delta) {
+        let newVal = cart[id] + delta;
+        if(newVal < 0) newVal = 0;
+        cart[id] = newVal;
+        saveCart();
+        document.querySelector(`.qty-value[data-id="${id}"]`).innerText = newVal;
+        updateOrderSummary();
+    }
+
+    function updateOrderSummary() {
+        let subtotal = 0, items = [];
+        products.forEach(p => {
+            let q = cart[p.id];
+            if(q > 0) {
+                let total = p.price * q;
+                subtotal += total;
+                items.push({ name: p.name, qty: q, total });
+            }
+        });
+        const grand = subtotal; // no delivery fee
+        const itemsDiv = document.getElementById('orderItemsList');
+        if(items.length === 0) itemsDiv.innerHTML = '<div class="order-item">✨ No items selected</div>';
+        else itemsDiv.innerHTML = items.map(i => `<div class="order-item"><span>${i.qty} × ${i.name}</span><span>R${i.total.toFixed(2)}</span></div>`).join('');
+        document.getElementById('grandTotal').innerText = `R${grand.toFixed(2)}`;
+        window.currentOrder = { items, total: grand };
+    }
+
+    function clearCart() {
+        products.forEach(p => cart[p.id] = 0);
+        saveCart();
+        renderProducts();
+        updateOrderSummary();
+    }
+
+    function shareOrder() {
+        let order = window.currentOrder;
+        if(!order.items.length) { alert("Add items first"); return; }
+        let msg = `🍕 *NEW ORDER from Pizza Hub* 🍕\n\n${order.items.map(i => `• ${i.qty} x ${i.name} = R${i.total.toFixed(2)}`).join('\n')}\n────────────────\n💰 *TOTAL: R${order.total.toFixed(2)}*\n\n🏦 Payment:\n${BANK_TEXT}\n\n📌 Order after payment confirmation.`;
+        window.open(`https://wa.me/${YOUR_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyBank() {
+        navigator.clipboard.writeText(BANK_TEXT).then(() => alert("Bank details copied!"));
+    }
+
+    document.getElementById('copyBankBtn').addEventListener('click', copyBank);
+    document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+    document.getElementById('whatsappBtn').addEventListener('click', shareOrder);
+
+    loadCart();
+    renderProducts();
+    updateOrderSummary();
+</script>
+</body>
 </html>
